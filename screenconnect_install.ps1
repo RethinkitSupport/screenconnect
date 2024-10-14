@@ -1,3 +1,8 @@
+# ScreenConnect Installer
+#
+# To Install from Command line (as admin):  Windows + R 
+# powershell -executionpolicy bypass $ProgressPreference='SilentlyContinue';Invoke-Expression(Invoke-WebRequest https://raw.githubusercontent.com/RethinkitSupport/screenconnect/refs/heads/main/screenconnect_install.ps1 -UseBasicParsing).Content 
+#
 Write-Host "Installing ScreenConnect..." -ForegroundColor Green
 $url = "https://rethinkit2410101053.screenconnect.com/Bin/ScreenConnect.ClientSetup.exe?e=Access&y=Guest&c=Unassigned&c=&c=&c=&c=&c=&c=&c="
 $outpath = "$($env:TEMP)\ScreenConnectInstaller.exe"
