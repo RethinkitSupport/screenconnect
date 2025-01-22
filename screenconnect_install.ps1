@@ -39,12 +39,12 @@ Write-host "DeviceType: $($DeviceType)"
 Write-host ""
 Write-Host "-----------------------------------------------------------------------------"
 if ($mode_auto) {Write-Host "Auto-install"} else {Pause}
-If (-not (Isadmin))
-{
-	Write-Host "Requires elevation.  Re-run as admin."
-	start-sleep 3
-	exit 99
-}
+# If (-not (Isadmin))
+# {
+# 	Write-Host "Requires elevation.  Re-run as admin."
+# 	start-sleep 3
+# 	exit 99
+# }
 $exitcode=0
 # Convert settings to URL format
 $Company    = [System.Web.HttpUtility]::UrlEncode($Company)    -replace '\+', '%20'
