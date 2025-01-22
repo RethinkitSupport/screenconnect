@@ -47,6 +47,7 @@ if ($mode_auto) {Write-Host "Auto-install"} else {Pause}
 # }
 $exitcode=0
 # Convert settings to URL format
+Add-Type -AssemblyName System.Web
 $Company    = [System.Web.HttpUtility]::UrlEncode($Company)    -replace '\+', '%20'
 $Site       = [System.Web.HttpUtility]::UrlEncode($Site)       -replace '\+', '%20'
 $Dept       = [System.Web.HttpUtility]::UrlEncode($Dept)       -replace '\+', '%20'
@@ -55,6 +56,8 @@ $DeviceType = [System.Web.HttpUtility]::UrlEncode($DeviceType) -replace '\+', '%
 $tmpFile = Join-Path $Env:Temp (Split-Path $UrlBase -leaf)
 # Get the download path
 $WebUrl  = "$($UrlBase)?e=Access&y=Guest&c=$($Company)&c=$($Site)&c=$($Department)&c=$($DeviceType)&c=&c=&c=&c="
+Write-Host "Download URL: " -NoNewline
+Write-Host $WebUrl -ForegroundColor Green
 # Download (without progress / faster)
 $Pp_old=$ProgressPreference;$ProgressPreference = 'SilentlyContinue' # Change from default (Continue). Prevents byte display in Invoke-WebRequest (speeds it up)
 Invoke-WebRequest -Uri $WebUrl -OutFile $tmpFile
@@ -64,7 +67,7 @@ if (Test-path $tmpFile) {
 	Write-Host "Downloaded: " -NoNewline
 	Write-Host $tmpFile -ForegroundColor Green
 	# Launch it
-	$proc = Start-Process $tmpFile -ArgumentList $arglist -PassThru -Wait -NoNewWindow
+	$proc = Start-Process $tmpFile -PassThru -Wait -NoNewWindow
 	# Delete it
 	Remove-Item -Path $tmpFile -Force
 } # Downloaded
