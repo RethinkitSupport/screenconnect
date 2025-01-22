@@ -67,7 +67,7 @@ if (Test-path $tmpFile) {
 	Write-Host "Downloaded: " -NoNewline
 	Write-Host $tmpFile -ForegroundColor Green
 	# Launch it
-	$proc = Start-Process $tmpFile -PassThru -Wait -NoNewWindow
+	Start-Process -Filepath $tmpFile -Wait
 	# Delete it
 	Remove-Item -Path $tmpFile -Force
 } # Downloaded
