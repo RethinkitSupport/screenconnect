@@ -22,7 +22,7 @@ $scriptName     = "screen_connect_install.ps1"
 $UrlHost  = "rethinkit"
 $UrlBase  = "https://$($UrlHost).screenconnect.com/Bin/ScreenConnect.ClientSetup.exe"
 $Company    = "Unknown"
-$Site       = "ScreenConnect ($($UrlHost))"
+$Site       = "ScreenConnect"
 $Dept       = ""
 $DeviceType = ""
 ###
