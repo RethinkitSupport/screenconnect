@@ -21,10 +21,25 @@ Function IsAdmin()
 $scriptName     = "screen_connect_install.ps1"
 $UrlHost  = "rethinkit"
 $UrlBase  = "https://$($UrlHost).screenconnect.com/Bin/ScreenConnect.ClientSetup.exe"
-$Company    = "Rethinkit"
-$Site       = "App Install - ScreenConnect (Rethinkit)"
+$Company    = "Unknown"
+$Site       = "ScreenConnect ($($UrlHost))"
 $Dept       = ""
 $DeviceType = ""
+###
+# Azure Info
+Write-Host "Getting PC info (dsregcmd /status)..."
+$dsregcmd = dsregcmd /status | Where-Object { $_ -match ' : ' } | ForEach-Object { $_.Trim() } | ConvertFrom-String -PropertyNames 'Name','Value' -Delimiter ' : '
+$TenantName    = ($dsregcmd | Where-Object -Property Name -eq "TenantName").Value
+if ($TenantName) {$Company=$TenantName}
+# Public IP
+Write-Host "  Getting public ip (http://ipinfo.io)..."
+$PublicIP_Info = Invoke-RestMethod http://ipinfo.io/json -UseBasicParsing
+$PublicIP      = $PublicIP_Info.ip
+if ($PublicIP) {$site+=" Public IP $($PublicIP)"}
+# Local IP
+$LocalIP = Get-NetIPAddress -InterfaceIndex (Get-NetConnectionProfile | Sort-Object InterfaceIndex | Select-Object -First 1 -ExpandProperty InterfaceIndex) -AddressFamily IPV4 | Select-Object -ExpandProperty IPAddress
+if ($LocalIP) {$site+=" Local IP $($LocalIP)"}
+###
 Write-Host "-----------------------------------------------------------------------------"
 Write-Host ("$scriptName        Computer:$env:computername User:$env:username PSver:"+($PSVersionTable.PSVersion.Major))
 Write-host "Mode: $($mode)"
@@ -38,7 +53,7 @@ Write-host "      Dept: $($Dept)"
 Write-host "DeviceType: $($DeviceType)"
 Write-host ""
 Write-Host "-----------------------------------------------------------------------------"
-if ($mode_auto) {Write-Host "Auto-install"} else {Pause}
+if ($mode_auto) {Write-Host "Auto-install (in 5 seconds)";Start-Sleep 5} else {Pause}
 # If (-not (Isadmin))
 # {
 # 	Write-Host "Requires elevation.  Re-run as admin."
@@ -64,7 +79,7 @@ Invoke-WebRequest -Uri $WebUrl -OutFile $tmpFile
 $ProgressPreference = $Pp_old
 # Downloaded?
 if (Test-path $tmpFile) {
-	Write-Host "Downloaded: " -NoNewline
+	Write-Host "Running: " -NoNewline
 	Write-Host $tmpFile -ForegroundColor Green
 	# Launch it
 	Start-Process -Filepath $tmpFile -Wait
