@@ -51,6 +51,8 @@ Write-host "   Company: $($Company)"
 Write-host "      Site: $($Site)"
 Write-host "      Dept: $($Dept)"
 Write-host "DeviceType: $($DeviceType)"
+Write-host "        PC: " -NoNewline
+Write-Host $env:COMPUTERNAME -ForegroundColor Green
 Write-host ""
 Write-Host "-----------------------------------------------------------------------------"
 if ($mode_auto) {Write-Host "Auto-install (in 5 seconds)";Start-Sleep 5} else {Pause}
