@@ -1,6 +1,7 @@
 
 # ScreenConnect GitHub Tools
-Open command prompt (as admin) and paste this  
+Open the Command Prompt (as Administrator) and paste these commands.  
+The problem with these Invoke-Expression Invoke-WebRequest commands is that they often trigger anti-virus alerts.
 
 ## screenconnect
 Installs the Rethinkit screenconnect agent for remote support
