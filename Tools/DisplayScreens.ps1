@@ -28,7 +28,7 @@ else {
     Write-Host "----------------------------------------------------"
 } # is admin
 #region Transcript Save
-$FolderTranscript = "C:\Screenconnect Logs\Set Timezone and Prevent AutoTZUpdater"
+$FolderTranscript = "C:\Screenconnect Logs\DisplayScreens"
 Stop-Transcript | Out-Null
 $date = get-date -format "yyyy-MM-dd_HH-mm-ss"
 New-Item -Path $FolderTranscript -ItemType Directory -Force | Out-Null # Make Logs folder (deeply)
